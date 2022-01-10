@@ -9,3 +9,9 @@ The project has 2 folders:
 - `confusion_matrices`, which contains the confusion matrix of each attack run;
 - `poisoned_data`, which contains the poisoned data used for the attacks;
 
+The code is separated in 3  flies:
+
+- `interpolation.py`, which creates the poisoned dataset;
+- `ladder_net.py`, which defines the Semi-supervised learning model;
+- `mnist_example.py`, which contains the attacks;
+
