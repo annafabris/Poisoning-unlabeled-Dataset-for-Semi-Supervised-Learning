@@ -38,7 +38,7 @@ y_train_labeled   = y_train[idxs_annot]
 interpolation = 'image'
 if(interpolation == 'image'):      # 1800 images of 4-9 image space interpolation
     path = os.path.dirname(os.path.abspath(__file__)) + '/poisoned_data/image_space_1800.csv'
-elif(interpolation == 'atent'):    # 1800 images of 4-9 latent space interpolation
+elif(interpolation == 'latent'):    # 1800 images of 4-9 latent space interpolation
     path = os.path.dirname(os.path.abspath(__file__)) + '/poisoned_data/latent_space_1800.csv'
 
 # choose which percentage of the poisoned dataset to add
