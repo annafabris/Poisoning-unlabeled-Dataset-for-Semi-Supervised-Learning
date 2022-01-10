@@ -88,7 +88,7 @@ batches = gen.flow(x_train, x_train, batch_size = 128)
 val_batches = gen.flow(x_val, x_val, batch_size = 128)
 
 # train model
-history = autoencoder.fit_generator(generator = batches, epochs = 10, 
+history = autoencoder.fit_generator(generator = batches, epochs = 100, 
                     validation_data = val_batches, validation_steps = val_batches.n)
 
 # get data ready for interpolation
@@ -111,11 +111,13 @@ if (latent):
         if el == start_interpolation_number:
             start_interpolation.append(encoder.predict(x_train[index].reshape(1,28,28,1)))
         if el == end_interpolation_number:
-            end_interpolation.append((x_train[index].reshape(1,28,28,1)))
+            end_interpolation.append(encoder.predict(x_train[index].reshape(1,28,28,1)))
     # compute the interpolations
-    for o, t in zip(decoder.predict(start_interpolation[0:num_interpolations], end_interpolation[0:num_interpolations])):
+    for o, t in zip(start_interpolation[0:num_interpolations], end_interpolation[0:num_interpolations]):
         interpolated_images.append(interpolate_points(o, t, num_images_per_interpolation))
-
+    for j in interpolated_images:
+        for i in range(2, len(j) - 2):
+            interpolation.append(decoder.predict(j[i].reshape(1,128)).reshape(28,28))
 else:
     # get start_interpolation_number and end_interpolation_number
     for index, el in enumerate(y_train[0:num_interpolations * 10]):
@@ -126,21 +128,19 @@ else:
     # compute the interpolations
     for o, t in zip(start_interpolation[0:num_interpolations], end_interpolation[0:num_interpolations]):
         interpolated_images.append(interpolate_points(o, t, num_images_per_interpolation))
-
-# generate interpolation
-for j in interpolated_images:
-    for i in range(2, len(j) - 2):
-        interpolation.append((j[i]).reshape(28,28))
+    for j in interpolated_images:
+        for i in range(2, len(j) - 2):
+            interpolation.append((j[i]).reshape(28,28))
 
 # choose which percentage of the poisoned dataset to add
 percentage = 3      # 3%
 poisoned_data_size = x_train.shape[0] // 100 * percentage
 
 # choose which pre donwloaded data to include
-if(latent == False):
-    path = os.path.dirname(os.path.abspath(__file__) + '/poisoned_data' + 'image_space_' + str(poisoned_data_size) + '.csv')
-elif(latent == True):
+if(latent):
     path = os.path.dirname(os.path.abspath(__file__) + '/poisoned_data' + 'latent_space_' + str(poisoned_data_size) + '.csv')
+else:
+    path = os.path.dirname(os.path.abspath(__file__) + '/poisoned_data' + 'image_space_' + str(poisoned_data_size) + '.csv')
 
 # save poisoned dataset
 poisoned_dataset = []
