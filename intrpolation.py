@@ -6,6 +6,7 @@ import csv
 import os
 
 from keras.utils.np_utils import to_categorical
+from keras.models import Model, Sequential
 from keras.layers import Input, Reshape ,Flatten, Conv2D, MaxPooling2D, UpSampling2D
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing import image
@@ -87,10 +88,10 @@ batches = gen.flow(x_train, x_train, batch_size = 128)
 val_batches = gen.flow(x_val, x_val, batch_size = 128)
 
 # train model
-history = autoencoder.fit_generator(generator = batches, epochs = 100, 
+history = autoencoder.fit_generator(generator = batches, epochs = 10, 
                     validation_data = val_batches, validation_steps = val_batches.n)
 
-# get data erady for interpolation
+# get data ready for interpolation
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 x_train = x_train.reshape(60000, 28, 28, 1).astype('float32')/255
 
@@ -104,21 +105,27 @@ start_interpolation = []
 end_interpolation = []
 interpolation = []
 
-if ():
+if (latent):
+    # get start_interpolation_number and end_interpolation_number
     for index, el in enumerate(y_train[0:num_interpolations * 10]):
         if el == start_interpolation_number:
-            start_interpolation.append((x_train[index].reshape(1,28,28,1)))
+            start_interpolation.append(encoder.predict(x_train[index].reshape(1,28,28,1)))
         if el == end_interpolation_number:
             end_interpolation.append((x_train[index].reshape(1,28,28,1)))
-else:
-    for index, el in enumerate(y_train[0:num_interpolations * 10]):
-        if el == start_interpolation_number:
-            start_interpolation.append((x_train[index].reshape(1,28,28,1)))
-        if el == end_interpolation_number:
-            end_interpolation.append((x_train[index].reshape(1,28,28,1)))
+    # compute the interpolations
+    for o, t in zip(decoder.predict(start_interpolation[0:num_interpolations], end_interpolation[0:num_interpolations])):
+        interpolated_images.append(interpolate_points(o, t, num_images_per_interpolation))
 
-for o, t in zip(start_interpolation[0:num_interpolations], end_interpolation[0:num_interpolations]):
-    interpolated_images.append(interpolate_points(o, t, num_images_per_interpolation))
+else:
+    # get start_interpolation_number and end_interpolation_number
+    for index, el in enumerate(y_train[0:num_interpolations * 10]):
+        if el == start_interpolation_number:
+            start_interpolation.append((x_train[index].reshape(1,28,28,1)))
+        if el == end_interpolation_number:
+            end_interpolation.append((x_train[index].reshape(1,28,28,1)))
+    # compute the interpolations
+    for o, t in zip(start_interpolation[0:num_interpolations], end_interpolation[0:num_interpolations]):
+        interpolated_images.append(interpolate_points(o, t, num_images_per_interpolation))
 
 # generate interpolation
 for j in interpolated_images:
