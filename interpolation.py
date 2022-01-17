@@ -11,6 +11,18 @@ from keras.layers import Input, Reshape ,Flatten, Conv2D, MaxPooling2D, UpSampli
 from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing import image
 from keras.datasets import mnist
+from pathlib import Path
+
+# choose which percentage of the poisoned dataset to add
+percentage = 3      # 3%
+# choose wheter to generare latent space interpolation or image space interpolation
+latent = True # True if latent space interpolation, false otherwise
+# chose the details of the interpolation
+num_images_per_interpolation = 25
+num_interpolations = 9
+start_interpolation_number = 4
+end_interpolation_number = 9
+
 
 # split train set into train and validation
 def train_val_split(x_train, y_train):
@@ -95,11 +107,6 @@ history = autoencoder.fit_generator(generator = batches, epochs = 100,
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 x_train = x_train.reshape(60000, 28, 28, 1).astype('float32')/255
 
-latent = True # True if latent space interpolation, false otherwise
-num_images_per_interpolation = 25
-num_interpolations = 9
-start_interpolation_number = 4
-end_interpolation_number = 9
 interpolated_images = []
 start_interpolation = []
 end_interpolation = []
@@ -107,7 +114,7 @@ interpolation = []
 
 if (latent):
     # get start_interpolation_number and end_interpolation_number
-    for index, el in enumerate(y_train[0:num_interpolations * 10]):
+    for index, el in enumerate(y_train[0:num_interpolations * 20]):
         if el == start_interpolation_number:
             start_interpolation.append(encoder.predict(x_train[index].reshape(1,28,28,1)))
         if el == end_interpolation_number:
@@ -120,7 +127,7 @@ if (latent):
             interpolation.append(decoder.predict(j[i].reshape(1,128)).reshape(28,28))
 else:
     # get start_interpolation_number and end_interpolation_number
-    for index, el in enumerate(y_train[0:num_interpolations * 10]):
+    for index, el in enumerate(y_train[0:num_interpolations * 20]):
         if el == start_interpolation_number:
             start_interpolation.append((x_train[index].reshape(1,28,28,1)))
         if el == end_interpolation_number:
@@ -132,15 +139,15 @@ else:
         for i in range(2, len(j) - 2):
             interpolation.append((j[i]).reshape(28,28))
 
-# choose which percentage of the poisoned dataset to add
-percentage = 3      # 3%
+# calculate the percentage of the poisoned dataset to add
 poisoned_data_size = x_train.shape[0] // 100 * percentage
 
-# choose which pre donwloaded data to include
+# compose the path of the poisoned data
+directory = str(Path().absolute())
 if(latent):
-    path = os.path.dirname(os.path.abspath(__file__) + '/poisoned_data' + 'latent_space_' + str(poisoned_data_size) + '.csv')
+    path = directory + '/poisoned_data/' + 'latent_space_' + str(poisoned_data_size) + '.csv'
 else:
-    path = os.path.dirname(os.path.abspath(__file__) + '/poisoned_data' + 'image_space_' + str(poisoned_data_size) + '.csv')
+    path = directory + '/poisoned_data/' + 'image_space_' + str(poisoned_data_size) + '.csv'
 
 # save poisoned dataset
 poisoned_dataset = []

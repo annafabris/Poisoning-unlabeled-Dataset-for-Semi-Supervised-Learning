@@ -64,7 +64,7 @@ y_train_labeled_rep = np.concatenate([y_train_labeled]*n_rep)
 # initialize the model 
 model = get_ladder_network_fc(layer_sizes=[inp_size, 1000, 500, 250, 250, 250, n_classes])
 
-# train the model for 100 epochs
+# train the model for 10 epochs
 for _ in range(10):
     model.fit([x_train_labeled_rep, x_train_poisoned], y_train_labeled_rep, epochs=1)
     y_test_pr = model.test_model.predict(x_test, batch_size=100)
