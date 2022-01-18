@@ -98,7 +98,7 @@ decoder_layer = autoencoder.layers[-1](decoder_layer)
 decoder = Model(encoded_input, decoder_layer)
 
 # train model
-history = autoencoder.fit(x_train, x_train, epochs = 2, validation_data = (x_val, x_val))
+history = autoencoder.fit(x_train, x_train, epochs = 100, validation_data = (x_val, x_val))
 
 # get data ready for interpolation
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -115,7 +115,7 @@ num_interpolations = poisoned_data_size // (num_images_per_interpolation - 4)
 
 if (latent):
     # get start_interpolation_number and end_interpolation_number
-    for index, el in enumerate(y_train[0:num_interpolations * 20]):
+    for index, el in enumerate(y_train[0:(poisoned_data_size + 1) * 20]):
         if el == start_interpolation_number:
             start_interpolation.append(encoder.predict(x_train[index].reshape(1, 28, 28, 1)))
         if el == end_interpolation_number:
@@ -128,7 +128,7 @@ if (latent):
             interpolation.append(decoder.predict(j[i].reshape(1, 128)).reshape(28, 28))
 else:
     # get start_interpolation_number and end_interpolation_number
-    for index, el in enumerate(y_train[0:num_interpolations * 20]):
+    for index, el in enumerate(y_train[0:(poisoned_data_size + 1) * 20]):
         if el == start_interpolation_number:
             start_interpolation.append((x_train[index].reshape(1, 28, 28, 1)))
         if el == end_interpolation_number:

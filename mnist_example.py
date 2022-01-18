@@ -1,3 +1,6 @@
+from __future__ import print_function
+from ssl import OP_NO_RENEGOTIATION
+
 import numpy as np
 import keras
 import random
@@ -46,15 +49,15 @@ poisoned_data_size = x_train.shape[0] // 100 * percentage
 model = get_ladder_network_fc(layer_sizes=[inp_size, 1000, 500, 250, 250, 250, n_classes])
 
 # download poisoned data and add it
-with open(path, newline='') as f:
-    reader = csv.reader(f)
-    x_train_poisoned = list(reader)
+#with open(path, newline='') as f:
+#    reader = csv.reader(f)
+#    x_train_poisoned = list(reader)
+#
+#print(poisoned_data_size)
+#x_train_poisoned = np.concatenate((x_train_unlabeled, x_train_poisoned[:poisoned_data_size]))
+#x_train_poisoned = x_train_poisoned.astype(float)
 
-print(poisoned_data_size)
-x_train_poisoned = np.concatenate((x_train_unlabeled, x_train_poisoned[:poisoned_data_size]))
-x_train_poisoned = x_train_poisoned.astype(float)
-
-n_rep = x_train_poisoned.shape[0] // x_train_labeled.shape[0]
+n_rep = x_train_unlabeled.shape[0] // x_train_labeled.shape[0]
 x_train_labeled_rep = np.concatenate([x_train_labeled]*n_rep)
 y_train_labeled_rep = np.concatenate([y_train_labeled]*n_rep)
 
@@ -63,7 +66,7 @@ model = get_ladder_network_fc(layer_sizes=[inp_size, 1000, 500, 250, 250, 250, n
 
 # train the model for 10 epochs
 for _ in range(10):
-    model.fit([x_train_labeled_rep, x_train_poisoned], y_train_labeled_rep, epochs=1)
+    model.fit([x_train_labeled_rep, x_train_unlabeled], y_train_labeled_rep, epochs=1)
     y_test_pr = model.test_model.predict(x_test, batch_size=100)
     print("Test accuracy : %f" % accuracy_score(y_test.argmax(-1), y_test_pr.argmax(-1)))
 
