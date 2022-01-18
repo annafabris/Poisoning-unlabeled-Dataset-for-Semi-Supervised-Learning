@@ -2,10 +2,10 @@
 
 Project  work  done  on  the  ["Poisoning  the  Unlabeled  Dataset  of Semi-Supervised Learning"](https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-poisoning) paper.
 
-This is an implementation of a Semi-supervised learning model (Ladder Network) that recognizes the digits in the MNIST database. Following a few attacks were executed with the target of misclassifying 4s with 9s.
+This is a Semi-supervised learning model (Ladder Network) that recognizes the digits in the MNIST database. Following, a few attacks were executed with the target of misclassifying 4s with 9s.
 
 ### Results
-|           | Test Accuracy | 9-4 error | 4s classified as 9s |
+|           | Test Accuracy | 9s misclassified as 4s | 4s misclassified as 9s |
 |:---------:|:-------------:|:---------:|---------------------|
 | **Supervised model**	 	| 98.88% | 0.4% | 0.5% |
 | **Non-poisoned model** 	| 95.46% | 2.3% | 2.7% |
