@@ -26,6 +26,5 @@ The code is separated in 3  files:
 - `mnist_example.py`, which trains and poison the model;
 
 ## Sources
-For the poisoning data generation: https://github.com/kvsnoufal/Latent-Space-Interpolation
-
-For the ladder network: https://github.com/divamgupta/ladder_network_keras
+- https://blog.keras.io/building-autoencoders-in-keras.html
+- https://github.com/divamgupta/ladder_network_keras

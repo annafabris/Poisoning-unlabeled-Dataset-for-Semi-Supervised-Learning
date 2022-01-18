@@ -19,7 +19,6 @@ percentage = 3      # 3%
 latent = True # True if latent space interpolation, false otherwise
 # chose the details of the interpolation
 num_images_per_interpolation = 25
-num_interpolations = 9
 start_interpolation_number = 4
 end_interpolation_number = 9
 
@@ -111,6 +110,9 @@ interpolated_images = []
 start_interpolation = []
 end_interpolation = []
 interpolation = []
+# calculate the percentage of the poisoned dataset to add
+poisoned_data_size = x_train.shape[0] // 100 * percentage
+num_interpolations = poisoned_data_size // (num_images_per_interpolation - 4) 
 
 if (latent):
     # get start_interpolation_number and end_interpolation_number
@@ -138,9 +140,6 @@ else:
     for j in interpolated_images:
         for i in range(2, len(j) - 2):
             interpolation.append((j[i]).reshape(28,28))
-
-# calculate the percentage of the poisoned dataset to add
-poisoned_data_size = x_train.shape[0] // 100 * percentage
 
 # compose the path of the poisoned data
 directory = str(Path().absolute())
