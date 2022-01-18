@@ -1,6 +1,3 @@
-from __future__ import print_function
-from ssl import OP_NO_RENEGOTIATION
-
 import numpy as np
 import keras
 import random
