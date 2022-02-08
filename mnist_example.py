@@ -54,7 +54,7 @@ model = get_ladder_network_fc(layer_sizes=[inp_size, 1000, 500, 250, 250, 250, n
 #    x_train_poisoned = list(reader)
 #
 #print(poisoned_data_size)
-#x_train_poisoned = np.concatenate((x_train_unlabeled, x_train_poisoned[:poisoned_data_size]))
+#x_train_poisoned = np.concatenate((x_train_unlabeled, x_train_poisoned[1:poisoned_data_size + 1]))
 #x_train_poisoned = x_train_poisoned.astype(float)
 
 n_rep = x_train_unlabeled.shape[0] // x_train_labeled.shape[0]
