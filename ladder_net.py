@@ -50,7 +50,7 @@ class G_Guass(Layer):
 
         init_values = [0., 1., 0., 0., 0., 0., 1., 0., 0., 0.]
         self.a = [self.wi(v, 'a' + str(i + 1)) for i, v in enumerate(init_values)]
-        super(G_Guass , self).build(input_shape)  # Be sure to call this at the end
+        super(G_Guass , self).build(input_shape)
 
     def call(self, x):
         z_c, u = x 
@@ -134,7 +134,7 @@ def get_ladder_network_fc(layer_sizes=[784, 1000, 500, 250, 250, 250, 10],
 
     tr_m = Model([inputs_l, inputs_u], y_c_l)
     tr_m.add_loss(u_cost)
-    tr_m.compile(tf.keras.optimizers.Adam(learning_rate=0.02 ), 'categorical_crossentropy', metrics=['accuracy'])
+    tr_m.compile(tf.keras.optimizers.Adam(learning_rate = 0.02, amsgrad = True), 'categorical_crossentropy', metrics = ['accuracy'])
 
     tr_m.metrics_names.append("den_loss")
     tr_m.metrics.append(u_cost)
