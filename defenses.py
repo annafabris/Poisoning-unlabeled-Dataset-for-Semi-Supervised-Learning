@@ -35,19 +35,18 @@ def agglomerative_clustering_defense():
 
     # check how many elements have been identified as poisoned
     poisoned_cluster = Counter(clustering.labels_).most_common(1)[0][0]
-    second = Counter(clustering.labels_).most_common(2)[1][0]
+    # second = Counter(clustering.labels_).most_common(2)[1][0]
     clean_count = 0
     poisoned_count = 0
     for i in range(len(clustering.labels_) - 1, 0, -1):
-        if(clustering.labels_[i] == poisoned_cluster or clustering.labels_[i] == second):
+        if(clustering.labels_[i] == poisoned_cluster):
             if(y_poison_dataset[i] == 0):
                 clean_count += 1
             else:
                 poisoned_count += 1
-    print("Agglomerative Clustering")
-    print("Percentage of not-poisoned data identified as poisoned: " + str(100 - (len(y_poison_dataset) - clean_count) * 100 // len(y_poison_dataset)) + "% (" + str(clean_count) + "/" + str(len(y_poison_dataset)) + ")")
-    print("Percentage of poisoned data identified as poisoned: " + str(100 - 100*(sum(y_poison_dataset) - poisoned_count) // sum(y_poison_dataset)) + "% (" + str(poisoned_count) + "/" + str(sum(y_poison_dataset)) + ")")
-
+    print("Agglomerative Clustering Defense")
+    print("Percentage of not-poisoned data identified as poisoned: " + str(clean_count * 100 // (len(y_poison_dataset) - sum(y_poison_dataset))) + "% (" + str(clean_count) + "/" + str(len(y_poison_dataset) - sum(y_poison_dataset)) + ")")
+    print("Percentage of poisoned data identified as poisoned: " + str(poisoned_count * 100 // sum(y_poison_dataset)) + "% (" + str(poisoned_count) + "/" + str(sum(y_poison_dataset)) + ")")
 # perform the m
 def monitoring_training_dynamics_defense(predictons, number_of_poisoned_samples):
     number_of_samples = len(predictons[0])
@@ -82,13 +81,13 @@ def monitoring_training_dynamics_defense(predictons, number_of_poisoned_samples)
     # check how many elements have been identified as poisoned
     not_poisoned_identified = 0
     poisoned_identified = 0
-    threshold = 3.9
+    threshold = np.percentile(avg_influence, 85)
     for i in range(number_of_samples):
         if(avg_influence[i] >= threshold):
             if(i <= number_of_samples - number_of_poisoned_samples):
                 not_poisoned_identified += 1
             else:
                 poisoned_identified += 1
-    print("Monitoring Training Dynamics")
+    print("Monitoring Training Dynamics Defense")
     print("Percentage of not-poisoned data identified as poisoned: " + str(100 * not_poisoned_identified // (number_of_samples- number_of_poisoned_samples))+ "% (" + str(not_poisoned_identified) + "/" + str(number_of_samples - number_of_poisoned_samples) + ")")
     print("Percentage of poisoned data identified as poisoned: " + str(100 * poisoned_identified // number_of_poisoned_samples) + "% (" + str(poisoned_identified) + "/" + str(number_of_poisoned_samples) + ")")
