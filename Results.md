@@ -22,7 +22,7 @@ All the test were carried out with 6000 not-poisoned samples and 600 poisoned on
 ## Evaluation across density functions
 
 | Nuber of interpolations between 4s and 9s | Test Accuracy | Misclassifications |
-|:---------:|:-------------:|:---------:|---------------------|
+|:---------:|:-------------:|:---------:|
 | **5 interpolations** 	| 92.89% | 9.54% |
 | **11 interpolations**	| 92.29% | 8.17% |
 | **16 interpolations**	| 92.51% | 8.59% |
