@@ -19,9 +19,9 @@ All the test were carried out with 6000 not-poisoned samples and 600 poisoned on
 | Poisoned data identified as poisoned |          63% |          66% |
 
 
-## Evaluation across density functions
+# Evaluation across density functions
 
-| Nuber of interpolations between 4s and 9s | Test Accuracy | Misclassifications |
+| Number of interpolations between 4s and 9s | Test Accuracy | Misclassifications |
 |:---------:|:-------------:|:---------:|
 | **5 interpolations** 	| 92.89% | 9.54% |
 | **11 interpolations**	| 92.29% | 8.17% |
@@ -29,3 +29,11 @@ All the test were carried out with 6000 not-poisoned samples and 600 poisoned on
 | **21 interpolations**	| 92.64% | 10.06% |
 | **31 interpolations**	| 92.74% | 9.46% |
 | **41 interpolations**	| 91.95% | 8.42% |
+
+
+# Evaluation across numbers of supervised label
+
+| Number of labels | Test Accuracy | Misclassifications |
+|:---------:|:-------------:|:---------:|
+| **100** 	| 92.64% | 10.06% |
+| **1000**	| 96.36% | 0.01% |
