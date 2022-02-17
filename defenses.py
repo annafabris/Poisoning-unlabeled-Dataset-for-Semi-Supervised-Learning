@@ -47,7 +47,8 @@ def agglomerative_clustering_defense():
     print("Agglomerative Clustering Defense")
     print("Percentage of not-poisoned data identified as poisoned: " + str(clean_count * 100 // (len(y_poison_dataset) - sum(y_poison_dataset))) + "% (" + str(clean_count) + "/" + str(len(y_poison_dataset) - sum(y_poison_dataset)) + ")")
     print("Percentage of poisoned data identified as poisoned: " + str(poisoned_count * 100 // sum(y_poison_dataset)) + "% (" + str(poisoned_count) + "/" + str(sum(y_poison_dataset)) + ")")
-# perform the m
+
+# Monitoring the training dynamics defense to identify poisoned samples
 def monitoring_training_dynamics_defense(predictons, number_of_poisoned_samples):
     number_of_samples = len(predictons[0])
     number_of_epochs = len(predictons)

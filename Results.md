@@ -18,6 +18,12 @@ All the test were carried out with 6000 not-poisoned samples and 600 poisoned on
 | Not-poisoned data identified as poisoned   |          10% |          9% |
 | Poisoned data identified as poisoned |          63% |          66% |
 
+# Attacks with adding noise to the poisoned examples
+|          | Test Accuracy | Misclassifications |
+|:--------------:|:-------------:|:-------------:|
+| Gaussian Noise   |          90.72% |          13.01% |
+| Poisson Noise |          93.35% |          8.20% |
+| Speckle Noise |          94.25% |          4.59% |
 
 # Evaluation across density functions
 

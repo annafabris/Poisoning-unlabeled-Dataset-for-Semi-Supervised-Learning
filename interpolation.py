@@ -43,6 +43,29 @@ def interpolate_points(p1, p2, n_steps = 10):
 				vectors.append(v)
 		return np.asarray(vectors)
 
+# Add gaussian, poisson and speckle noise to an image
+def noise(noise_type, image):
+    if noise_type == "gauss":
+        row,col= image.shape
+        mean = 0
+        var = 0.1
+        sigma = var**1.8
+        gauss = np.random.normal(mean,sigma,(row,col))
+        gauss = gauss.reshape(row,col)
+        noisy = image + gauss
+        return noisy
+    elif noise_type == "poisson":
+        vals = len(np.unique(image))
+        vals = 2 ** np.ceil(np.log2(vals))
+        noisy = np.random.poisson(image * vals) / float(vals)
+        return noisy
+    elif noise_type =="speckle":
+        row,col = image.shape
+        gauss = np.random.randn(row, col)*0.05
+        gauss = gauss.reshape(row,col)        
+        noisy = image + image * gauss
+        return noisy
+
 # import data
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 x_train = x_train.reshape(60000, 28, 28, 1).astype('float32') / 255
@@ -148,8 +171,12 @@ else:
     path = directory + '/poisoned_data/' + 'image_space_' + str(poisoned_data_size) + '.csv'
 
 # save poisoned dataset
+noise_type = "gauss"
 poisoned_dataset = []
 for i in interpolation[:poisoned_data_size]:
-    poisoned_dataset.append(i.flatten())
+    if(noise_type != "none"):
+        poisoned_dataset.append(noise(i).flatten())
+    else:
+        poisoned_dataset.append(i.flatten())
 df = pd.DataFrame(poisoned_dataset) 
 df.to_csv(path, index=False)
