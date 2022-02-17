@@ -18,14 +18,8 @@ All the test were carried out with 6000 not-poisoned samples and 600 poisoned on
 | Not-poisoned data identified as poisoned   |          10% |          9% |
 | Poisoned data identified as poisoned |          63% |          66% |
 
-# Attacks with adding noise to the poisoned examples
-|          | Test Accuracy | Misclassifications |
-|:--------------:|:-------------:|:-------------:|
-| Gaussian Noise   |          90.72% |          13.01% |
-| Poisson Noise |          93.35% |          8.20% |
-| Speckle Noise |          94.25% |          4.59% |
-
 # Evaluation across density functions
+All the test were carried out with 3% of poisoned sample on the image space interpolation.
 
 | Number of interpolations between 4s and 9s | Test Accuracy | Misclassifications |
 |:---------:|:-------------:|:---------:|
@@ -38,8 +32,19 @@ All the test were carried out with 6000 not-poisoned samples and 600 poisoned on
 
 
 # Evaluation across numbers of supervised label
+All the test were carried out on the image space interpolation.
 
 | Number of labels | Test Accuracy | Misclassifications |
 |:---------:|:-------------:|:---------:|
 | **100** 	| 92.64% | 10.06% |
 | **1000**	| 96.36% | 0.01% |
+
+# Attacks with adding noise to the poisoned examples
+All the test were carried out with 3% of poisoned sample on the image space interpolation.
+
+|          | Test Accuracy | Misclassifications |
+|:--------------:|:-------------:|:-------------:|
+| No Noise   |          92.64% |          10.06% |
+| Gaussian Noise   |          90.72% |          13.01% |
+| Poisson Noise |          93.35% |          8.20% |
+| Speckle Noise |          91.42% |          13.62% |
