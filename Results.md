@@ -5,7 +5,7 @@ Analysis of the 2 different strategies that could prevent the attack and elimina
 ### Agglomerative Clustering Defense
 All the test were carried out with 8000 not-poisoned samples and 600 poisoned ones, due to the time and memory required for the program needed to run.
 
-|          | Image space model 3% | Latent space model 3% |
+|          | Image space model | Latent space model |
 |:--------------:|:-------------:|:-------------:|
 | Not-poisoned data identified as poisoned   |          16% |          16% |
 | Poisoned data identified as poisoned |          57% |          64% |
@@ -13,7 +13,7 @@ All the test were carried out with 8000 not-poisoned samples and 600 poisoned on
 ### Monitoring Training Dynamics Defense
 All the test were carried out with 6000 not-poisoned samples and 600 poisoned ones, due to the time and memory required for the program needed to run.
 
-|          | Image space model 3% | Latent space model 3% |
+|          | Image space model | Latent space model |
 |:--------------:|:-------------:|:-------------:|
 | Not-poisoned data identified as poisoned   |          10% |          9% |
 | Poisoned data identified as poisoned |          63% |          66% |
