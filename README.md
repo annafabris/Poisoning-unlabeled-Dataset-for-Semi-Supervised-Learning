@@ -1,10 +1,13 @@
 # Poisoning unlabeled Dataset for Semi Supervised Learning
 
-Project  work  done  on  the  ["Poisoning  the  Unlabeled  Dataset  of Semi-Supervised Learning"](https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-poisoning) paper.
+This project is based on the  ["Poisoning  the  Unlabeled  Dataset  of Semi-Supervised Learning"](https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-poisoning) paper.
 
-This is a Semi-supervised learning model (Ladder Network) that recognizes the digits in the MNIST database. Following, a few attacks were executed with the target of misclassifying 4s with 9s.
+This is a Semi-supervised learning model (Ladder Network) that recognizes the digits in the MNIST database. The aim of the project is to execute attacks to misclassify 4s as 9s.
+
 
 ### Results
+The project compares the accuracy of various models, including supervised, non-poisoned, and different types of poisoned models. The table below shows the test accuracy and the percentage of misclassified 4s as 9s and vice versa for each model:
+
 |           | Test Accuracy | 9s misclassified as 4s | 4s misclassified as 9s |
 |:---------:|:-------------:|:---------:|---------------------|
 | **Supervised model**	 	| 98.88% | 0.4% | 0.5% |
